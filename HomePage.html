@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>베이커리 원격제어</title>
+
+  <style>
+    section {
+      background-image: url('img/section.jpg');
+      border: 0;
+      padding: 0;
+      min-height: 100%;
+      background-position: center;
+      background-size: cover;
+    }
+
+    body {
+      background-color: #7B1FA2
+    }
+
+    .container {
+      margin-top: 10px;
+      margin-bottom: 10px
+    }
+
+    #custCarousel .carousel-indicators {
+      position: static;
+      margin-top: 20px
+    }
+
+    #custCarousel .carousel-indicators>li {
+      width: 100px
+    }
+
+    #custCarousel .carousel-indicators li img {
+      display: block;
+      opacity: 0.5
+    }
+
+    #custCarousel .carousel-indicators li.active img {
+      opacity: 1
+    }
+
+    #custCarousel .carousel-indicators li:hover img {
+      opacity: 0.75
+    }
+
+    button {
+      cursor: pointer;
+    }
+  </style>
+  <!-- 버튼 alert -->
+  <script type="text/javascript">
+    function btn(sample) {
+      alert(sample);
+    }
+  </script>
+  <!-- 오븐 이벤트 -->
+  <script type="text/javascript">
+    function count(type) {
+      // 결과를 표시할 element
+      const resultElement1 = document.getElementById('resulttop');
+      const resultElement2 = document.getElementById('resultbot');
+      const resultElement3 = document.getElementById('resulttime');
+
+      // 현재 화면에 표시된 값
+      let number1 = resultElement1.innerText;
+      let number2 = resultElement2.innerText;
+      let number3 = resultElement3.innerText;
+
+      // 더하기/빼기
+      if (type === 'plus') {
+        number1 = parseInt(number1) + 1;
+        resultElement1.innerText = number1 + ' ˙C';
+      } else if (type === 'minus') {
+        number1 = parseInt(number1) - 1;
+        resultElement1.innerText = number1 + ' ˙C';
+      } else if (type === 'plus2') {
+        number2 = parseInt(number2) + 1;
+        resultElement2.innerText = number2 + ' ˙C';
+      } else if (type === 'minus2') {
+        number2 = parseInt(number2) - 1;
+        resultElement2.innerText = number2 + ' ˙C';
+      } else if (type === 'plus3') {
+        number3 = parseInt(number3) + 1;
+        resultElement3.innerText = number3 + ' 분';
+      } else if (type === 'minus3') {
+        number3 = parseInt(number3) - 1;
+        resultElement3.innerText = number3 + ' 분';
+      }
+
+    }
+  </script>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
+  <!-- Plugin CSS -->
+  <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/creative.min.css" rel="stylesheet">
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+
+</head>
+
+<body id="page-top">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-light" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand page-scroll text-uppercase" href="#page-top"> <strong> Bakery </strong> </a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse text-uppercase" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#air"> <strong> HOME </strong> </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#camera"> <strong> CAMERA </strong> </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Home Section
+  <header class="masthead text-center text-white d-flex" id="home">
+    <div class="container my-auto">
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+          <h1 class="text-uppercase">
+            <strong>나만의 베이커리 원격제어</strong>
+          </h1>
+        </div>
+      </div>
+    </div>
+  </header>
+  -->
+
+  <!-- air control Section -->
+  <section class="masthead text-center text-white d-flex" id="air" background-image="img/section.jpg">
+    <div class="col-lg-3 mx-auto" style="border: 2px solid white; border-radius: 20px; background-color: rgba(0,0,0,0.5);">
+      <h1 class="text-uppercase">
+        <br>
+        <strong>에어컨 제어</strong>
+        <hr>
+      </h1>
+      <br> <br>
+      <!-- carousel를 구성할 영역 설정 -->
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div id="custCarousel" class="carousel slide" data-interval="false" align="center">
+              <!-- slides -->
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <font size="2em"> 에어컨 모델: LG </font>
+                  <br> <br>
+                  <table class="table table-borderless">
+                    <tbody>
+                      <form method='post'>
+                        <tr>
+                          <td style="border-top: none; padding-left: 40px; text-align: right;">
+                            <font size="2em"> 동작 제어 </font>
+                          </td>
+                          <td style="border-top: none; padding-left: 40px; text-align: left;">
+                            <button id="101" type="button" class="lg btn btn-primary js-scroll-trigger" onclick="javascript:btn('LG ON')">ON</button>
+                            <button id="102" type="button" class="lg btn btn-primary js-scroll-trigger" onclick="javascript:btn('LG OFF')">OFF</button>
+                            <button id="103" type="button" class="lg btn btn-primary js-scroll-trigger" onclick="javascript:btn('LG Dry Mode')">Dry Mode</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border-top: none; padding-left: 40px; text-align: right;">
+                            <font size="2em"> 온도 제어 </font>
+                          </td>
+                          <td style="border-top: none; padding-left: 40px; text-align: left;">
+                            <button id="123" type="button" class="lg btn btn-primary js-scroll-trigger" onclick="javascript:btn('LG 23 ON')">23</button>
+                            <button id="124" type="button" class="lg btn btn-primary js-scroll-trigger" onclick="javascript:btn('LG 24 ON')">24</button>
+                            <button id="125" type="button" class="lg btn btn-primary js-scroll-trigger" onclick="javascript:btn('LG 25 ON')">25</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border-top: none; padding-top: 40px; padding-left: 40px; text-align: right;">
+                            <font size="2em"> 현재 상태 </font>
+                          </td>
+                          <td style="border-top: none; padding-top: 40px; padding-left: 40px; text-align: left;">
+                            <font size="2em">
+                              <div id="lgshow">-</div>
+                            </font>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border-top: none; padding-left: 40px; text-align: right;">
+                            <font size="2em"> 현재 온도 </font>
+                          </td>
+                          <td style="border-top: none; padding-left: 40px; text-align: left;">
+                            <font size="2em">
+                              <div id="lgshow2">-</div>
+                            </font>
+                          </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                  <br>
+                  <script type="text/javascript">
+                    $(document).ready(function() {
+                      $(".lg").click(function() {
+                        var p = $(this).attr('id'); // get id value (i.e. pin13, pin12, or pin11)
+                        // send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
+                        $.get("http://192.168.2.10/", {
+                          p
+                        }); // execute get request
+                      });
+                    });
+                  </script>
+                  <!-- 에어컨 이벤트 -->
+                  <script type="text/javascript">
+                    $(document).ready(function() {
+                      const btnlgon = document.getElementById('101');
+                      const btnlgoff = document.getElementById('102');
+                      const btnlgdry = document.getElementById('103');
+                      const btnlg23 = document.getElementById('123');
+                      const btnlg24 = document.getElementById('124');
+                      const btnlg25 = document.getElementById('125');
+                      const txt = document.getElementById('lgshow');
+                      const txt2 = document.getElementById('lgshow2');
+                      btnlgon.addEventListener('click', function() {
+                        txt.innerText = 'ON';
+                      });
+                      btnlgoff.addEventListener('click', function() {
+                        txt.innerText = 'OFF';
+                      });
+                      btnlgdry.addEventListener('click', function() {
+                        txt.innerText = 'DRY';
+                      });
+                      btnlg23.addEventListener('click', function() {
+                        txt2.innerText = '23˙C';
+                      });
+                      btnlg24.addEventListener('click', function() {
+                        txt2.innerText = '24˙C';
+                      });
+                      btnlg25.addEventListener('click', function() {
+                        txt2.innerText = '25˙C';
+                      });
+                    });
+                  </script>
+                </div>
+                <div class="carousel-item">
+                  <font size="2em"> 에어컨 모델: Samsung </font>
+                  <br> <br>
+                  <table class="table table-borderless">
+                    <tbody>
+                      <form method='post'>
+                        <tr>
+                          <td style="border-top: none; padding-left: 40px; text-align: right;">
+                            <font size="2em"> 동작 제어 </font>
+                          </td>
+                          <td style="border-top: none; padding-left: 40px; text-align: left;">
+                            <button id="201" type="button" class="samsung btn btn-primary js-scroll-trigger" onclick="javascript:btn('SAMSUNG ON')">ON</button>
+                            <button id="202" type="button" class="samsung btn btn-primary js-scroll-trigger" onclick="javascript:btn('SAMSUNG OFF')">OFF</button>
+                            <button id="203" type="button" class="samsung btn btn-primary js-scroll-trigger" onclick="javascript:btn('SAMSUNG Dry Mode')">Dry Mode</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border-top: none; padding-left: 40px; text-align: right;">
+                            <font size="2em"> 온도 제어 </font>
+                          </td>
+                          <td style="border-top: none; padding-left: 40px; text-align: left;">
+                            <button id="223" type="button" class="samsung btn btn-primary js-scroll-trigger" onclick="javascript:btn('SAMSUNG 23 ON')">23</button>
+                            <button id="224" type="button" class="samsung btn btn-primary js-scroll-trigger" onclick="javascript:btn('SAMSUNG 24 ON')">24</button>
+                            <button id="225" type="button" class="samsung btn btn-primary js-scroll-trigger" onclick="javascript:btn('SAMSUNG 25 ON')">25</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border-top: none; padding-top: 40px; padding-left: 40px; text-align: right;">
+                            <font size="2em"> 현재 상태 </font>
+                          </td>
+                          <td style="border-top: none; padding-top: 40px; padding-left: 40px; text-align: left;">
+                            <font size="2em">
+                              <div id="samshow">-</div>
+                            </font>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border-top: none; padding-left: 40px; text-align: right;">
+                            <font size="2em"> 현재 온도 </font>
+                          </td>
+                          <td style="border-top: none; padding-left: 40px; text-align: left;">
+                            <font size="2em">
+                              <div id="samshow2">-</div>
+                            </font>
+                          </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                  <br>
+                  <script type="text/javascript">
+                    $(document).ready(function() {
+                      $(".samsung").click(function() {
+                        var p = $(this).attr('id'); // get id value (i.e. pin13, pin12, or pin11)
+                        // send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
+                        $.get("http://192.168.2.10/", {
+                          p
+                        }); // execute get request
+                      });
+                    });
+                  </script>
+                  <script type="text/javascript">
+                    $(document).ready(function() {
+                      const btnson = document.getElementById('201');
+                      const btnsoff = document.getElementById('202');
+                      const btnsdry = document.getElementById('203');
+                      const btns23 = document.getElementById('223');
+                      const btns24 = document.getElementById('224');
+                      const btns25 = document.getElementById('225');
+                      const txts = document.getElementById('samshow');
+                      const txts2 = document.getElementById('samshow2');
+                      btnson.addEventListener('click', function() {
+                        txts.innerText = 'ON';
+                      });
+                      btnsoff.addEventListener('click', function() {
+                        txts.innerText = 'OFF';
+                      });
+                      btnsdry.addEventListener('click', function() {
+                        txts.innerText = 'DRY';
+                      });
+                      btns23.addEventListener('click', function() {
+                        txts2.innerText = '23˙C';
+                      });
+                      btns24.addEventListener('click', function() {
+                        txts2.innerText = '24˙C';
+                      });
+                      btns25.addEventListener('click', function() {
+                        txts2.innerText = '25˙C';
+                      });
+                    });
+                  </script>
+                </div>
+                <div class="carousel-item">
+                  <font size="2em"> 에어컨 모델: Carrier </font>
+                  <br> <br>
+                  <table class="table table-borderless">
+                    <tbody>
+                      <form method='post'>
+                        <tr>
+                          <td style="border-top: none; padding-left: 40px; text-align: right;">
+                            <font size="2em"> 동작 제어 </font>
+                          </td>
+                          <td style="border-top: none; padding-left: 40px; text-align: left;">
+                            <button id="301" type="button" class="carrier btn btn-primary js-scroll-trigger" onclick="javascript:btn('CARRIER ON')">ON</button>
+                            <button id="302" type="button" class="carrier btn btn-primary js-scroll-trigger" onclick="javascript:btn('CARRIER OFF')">OFF</button>
+                            <button id="303" type="button" class="carrier btn btn-primary js-scroll-trigger" onclick="javascript:btn('CARRIER Dry Mode')">Dry Mode</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border-top: none; padding-left: 40px; text-align: right;">
+                            <font size="2em"> 온도 제어 </font>
+                          </td>
+                          <td style="border-top: none; padding-left: 40px; text-align: left;">
+                            <button id="323" type="button" class="carrier btn btn-primary js-scroll-trigger" onclick="javascript:btn('CARRIER 23 ON')">23</button>
+                            <button id="324" type="button" class="carrier btn btn-primary js-scroll-trigger" onclick="javascript:btn('CARRIER 24 ON')">24</button>
+                            <button id="325" type="button" class="carrier btn btn-primary js-scroll-trigger" onclick="javascript:btn('CARRIER 25 ON')">25</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border-top: none; padding-top: 40px; padding-left: 40px; text-align: right;">
+                            <font size="2em"> 현재 상태 </font>
+                          </td>
+                          <td style="border-top: none; padding-top: 40px; padding-left: 40px; text-align: left;">
+                            <font size="2em">
+                              <div id="cshow">-</div>
+                            </font>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border-top: none; padding-left: 40px; text-align: right;">
+                            <font size="2em"> 현재 온도 </font>
+                          </td>
+                          <td style="border-top: none; padding-left: 40px; text-align: left;">
+                            <font size="2em">
+                              <div id="cshow2">-</div>
+                            </font>
+                          </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                  <br>
+                  <script type="text/javascript">
+                    $(document).ready(function() {
+                      $(".carrier").click(function() {
+                        var p = $(this).attr('id'); // get id value (i.e. pin13, pin12, or pin11)
+                        // send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
+                        $.get("http://192.168.2.10/", {
+                          p
+                        }); // execute get request
+                      });
+                    });
+                  </script>
+                  <script type="text/javascript">
+                    $(document).ready(function() {
+                      const btncon = document.getElementById('301');
+                      const btncoff = document.getElementById('302');
+                      const btncdry = document.getElementById('303');
+                      const btnc23 = document.getElementById('323');
+                      const btnc24 = document.getElementById('324');
+                      const btnc25 = document.getElementById('325');
+                      const txtc = document.getElementById('cshow');
+                      const txtc2 = document.getElementById('cshow2');
+                      btncon.addEventListener('click', function() {
+                        txtc.innerText = 'ON';
+                      });
+                      btncoff.addEventListener('click', function() {
+                        txtc.innerText = 'OFF';
+                      });
+                      btncdry.addEventListener('click', function() {
+                        txtc.innerText = 'DRY';
+                      });
+                      btnc23.addEventListener('click', function() {
+                        txtc2.innerText = '23˙C';
+                      });
+                      btnc24.addEventListener('click', function() {
+                        txtc2.innerText = '24˙C';
+                      });
+                      btnc25.addEventListener('click', function() {
+                        txtc2.innerText = '25˙C';
+                      });
+                    });
+                  </script>
+                </div>
+              </div> <!-- Left right --> <a class="carousel-control-prev" href="#custCarousel" data-slide="prev"> <span class="carousel-control-prev-icon"></span> </a> <a class="carousel-control-next" href="#custCarousel" data-slide="next"> <span
+                  class="carousel-control-next-icon"></span> </a> <!-- Thumbnails -->
+              <ol class="carousel-indicators list-inline">
+                <li class="list-inline-item active"> <a id="carousel-selector-0" class="selected" data-slide-to="0" data-target="#custCarousel"> <br> <button class="img-fluid btn btn-primary">LG</button> </a> </li>
+                <li class="list-inline-item"> <a id="carousel-selector-1" data-slide-to="1" data-target="#custCarousel"> <br> <button class="img-fluid btn btn-primary">Samsung</button> </a> </li>
+                <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="2" data-target="#custCarousel"> <br> <button class="img-fluid btn btn-primary">Carrier</button> </a> </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- fan control Section -->
+    <div class="col-lg-3 mx-auto" style="border: 2px solid white; border-radius: 20px; background-color: rgba(0,0,0,0.5);">
+      <h1 class="text-uppercase">
+        <br>
+        <strong>환풍기 제어</strong>
+        <hr>
+      </h1>
+      <br> <br> <br> <br>
+
+      <table class="table table-borderless">
+        <form method='post'>
+          <tbody>
+            <tr>
+              <td style="border-top: none; text-align: right;">
+                <font size="2em"> 동작 제어 </font>
+              </td>
+              <td style="border-top: none; text-align: left; padding-left: 40px;">
+                <button id="401" type="button" class="fan btn btn-primary js-scroll-trigger" onclick="javascript:btn('Fan ON')">ON</button>
+                <button id="402" type="button" class="fan btn btn-primary js-scroll-trigger" onclick="javascript:btn('Fan OFF')">OFF</button>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-top: none; padding-top: 40px; padding-left: 40px; text-align: right;">
+                <font size="2em"> 현재 상태 </font>
+              </td>
+              <td style="border-top: none; padding-top: 40px; padding-left: 40px; text-align: left;">
+                <font size="2em">
+                  <div id="fshow">-</div>
+                </font>
+              </td>
+            </tr>
+            <tr>
+              <div id="box" class="box">
+                <div id='timerBox' class="timerBox">
+                  <td style="border-top: none; padding-top: 40px; padding-left: 40px; text-align: right;">
+                    <font size="2em"> 환풍기 사용 시간 </font>
+                  </td>
+                  <td style="border-top: none; padding-top: 40px; padding-left: 40px; text-align: left;">
+                    <font size="2em">
+                      <div id="time" class="time">00시간 00분 00초</div>
+                    </font>
+                  </td>
+                </div>
+              </div>
+            </tr>
+          </tbody>
+        </form>
+      </table>
+      <script type="text/javascript">
+        $(document).ready(function() {
+          $(".fan").click(function() {
+            var p = $(this).attr('id'); // get id value (i.e. pin13, pin12, or pin11)
+            // send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
+            $.get("http://192.168.2.20/", {
+              p
+            }); // execute get request
+          });
+        });
+      </script>
+      <!-- 환풍기 이벤트 -->
+      <script type="text/javascript">
+        // 스톱워치
+        var time = 0;
+        var starFlag = true;
+        $(document).ready(function() {
+          buttonEvt();
+        });
+
+        function init() {
+          document.getElementById("time").innerHTML = "00시간 00분 00초";
+        }
+
+        function buttonEvt() {
+          var hour = 0;
+          var min = 0;
+          var sec = 0;
+          var timer;
+
+          // start btn
+          $("#401").click(function() {
+
+            if (starFlag) {
+              $(".fan")
+
+              starFlag = false;
+
+              if (time == 0) {
+                init();
+              }
+
+              timer = setInterval(function() {
+                time++;
+
+                min = Math.floor(time / 60);
+                hour = Math.floor(min / 60);
+                sec = time % 60;
+                min = min % 60;
+
+                var th = hour;
+                var tm = min;
+                var ts = sec;
+                if (th < 10) {
+                  th = "0" + hour;
+                }
+                if (tm < 10) {
+                  tm = "0" + min;
+                }
+                if (ts < 10) {
+                  ts = "0" + sec;
+                }
+                document.getElementById("time").innerHTML = th + "시간 " + tm + "분 " + ts + "초";
+              }, 1000);
+            }
+          });
+          // stop btn
+          $("#402").click(function() {
+            if (time != 0) {
+              $(".fan")
+              clearInterval(timer);
+              starFlag = true;
+              time = 0;
+              init();
+            }
+          });
+        }
+        // 현재상태
+        const btnfon = document.getElementById('401');
+        const btnfoff = document.getElementById('402');
+        const txtf = document.getElementById('fshow');
+        $(document).ready(function() {
+          btnfon.addEventListener('click', function() {
+            txtf.innerText = 'ON';
+          });
+          btnfoff.addEventListener('click', function() {
+            txtf.innerText = 'OFF';
+          });
+        });
+      </script>
+    </div>
+
+    <!-- oven control Section -->
+    <div class="col-lg-3 mx-auto" style="border: 2px solid white; border-radius: 20px; background-color: rgba(0,0,0,0.5);">
+      <h1 class="text-uppercase">
+        <br>
+        <strong>오븐 제어</strong>
+        <hr>
+      </h1>
+      <br> <br>
+
+      <table class="table table-borderless">
+        <tbody>
+          <form method='post'>
+            <tr>
+              <td style="border-top: none; text-align: right;">
+                <font size="2em"> TOP (상부열선) </font>
+              </td>
+              <td style="border-top: none;">
+                <font size="2em">
+                  <div id='resulttop'>0 ˙C</div>
+                </font>
+              </td>
+              <td style="border-top: none; text-align: left;">
+                <button id="1" type="button" class="oven btn btn-primary js-scroll-trigger" onclick='count("plus")'>UP</button>
+                <button id="2" type="button" class="oven btn btn-primary js-scroll-trigger" onclick='count("minus")'>DOWN</button>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-top: none; text-align: right;">
+                <font size="2em"> BOTTOM (하부열선) </font>
+              </td>
+              <td style="border-top: none;">
+                <font size="2em">
+                  <div id='resultbot'>0 ˙C</div>
+                </font>
+              </td>
+              <td style="border-top: none; text-align: left;">
+                <button id="3" type="button" class="oven btn btn-primary js-scroll-trigger" onclick='count("plus2")'>UP</button>
+                <button id="4" type="button" class="oven btn btn-primary js-scroll-trigger" onclick='count("minus2")'>DOWN</button>
+              </td>
+            </tr>
+            <tr>
+              <td rowspan="2" style="border-top: none; text-align: right;">
+                <br>
+                <font size="2em"> TIMER </font>
+              </td>
+              <td style="border-top: none;">
+                <font size="2em">
+                  <div id='resulttime'>0</div>
+                </font>
+              </td>
+              <td style="border-top: none; text-align: left;">
+                <button id="5" type="button" class="oven btn btn-primary js-scroll-trigger" onclick='count("plus3")'>UP</button>
+                <button id="6" type="button" class="oven btn btn-primary js-scroll-trigger" onclick='count("minus3")'>DOWN</button>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-top: none;">
+                <font size="2em">
+                  <div id='timeshow'>-</div>
+                </font>
+              </td>
+              <td style="border-top: none; text-align: left;">
+                <button id="7" type="button" class="oven btn btn-primary js-scroll-trigger" onclick="javascript:btn('TIMER START')">START</button>
+                <button id="8" type="button" class="oven btn btn-primary js-scroll-trigger" onclick="javascript:btn('TIMER STOP')">STOP</button>
+              </td>
+            <tr>
+              <td style="border-top: none; text-align: right;">
+                <font size="2em"> 내부 스팀 </font>
+              </td>
+              <td style="border-top: none;">
+                <font size="2em">
+                  <div id="oshow"> - </div>
+                </font>
+              </td>
+              <td style="border-top: none; text-align: left;">
+                <button id="9" type="button" class="oven btn btn-primary js-scroll-trigger" onclick="javascript:btn('STEAM ON')">ON</button>
+                <button id="10" type="button" class="oven btn btn-primary js-scroll-trigger" onclick="javascript:btn('STEAM OFF')">OFF</button>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-top: none; text-align: right;">
+                <font size="2em"> 내부 조명 </font>
+              </td>
+              <td style="border-top: none;">
+                <font size="2em">
+                  <div id="oshow2"> - </div>
+                </font>
+              </td>
+              <td style="border-top: none; text-align: left;">
+                <button id="11" type="button" class="oven btn btn-primary js-scroll-trigger" onclick="javascript:btn('LIGHT ON')">ON</button>
+                <button id="12" type="button" class="oven btn btn-primary js-scroll-trigger" onclick="javascript:btn('LIGHT OFF')">OFF</button>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-top: none; text-align: right;">
+                <font size="2em"> 동작 제어 </font>
+              </td>
+              <td style="border-top: none;">
+                <font size="2em">
+                  <div id="oshow3"> - </div>
+                </font>
+              </td>
+              <td style="border-top: none; text-align: left;">
+                <button id="13" type="button" class="oven btn btn-primary js-scroll-trigger" onclick="javascript:btn('OVEN ON')">ON</button>
+                <button id="14" type="button" class="oven btn btn-primary js-scroll-trigger" onclick="javascript:btn('OVEN OFF')">OFF</button>
+              </td>
+            </tr>
+          </form>
+          </td>
+          </tr>
+          </form>
+        </tbody>
+      </table>
+      <script type="text/javascript">
+        $(document).ready(function() {
+          $(".oven").click(function() {
+            var p = $(this).attr('id'); // get id value (i.e. pin13, pin12, or pin11)
+            // send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
+            $.get("http://192.168.2.30/", {
+              p
+            }); // execute get request
+          });
+        });
+      </script>
+      <!-- 오븐 이벤트 -->
+      <script type="text/javascript">
+        $(document).ready(function() {
+          const btntimeron = document.getElementById('7');
+          const btntimeroff = document.getElementById('8');
+          const btnsteamon = document.getElementById('9');
+          const btnsteamoff = document.getElementById('10');
+          const btnlighton = document.getElementById('11');
+          const btnlightoff = document.getElementById('12');
+          const btnoon = document.getElementById('13');
+          const btnooff = document.getElementById('14');
+          const txto = document.getElementById('timeshow');
+          const txto1 = document.getElementById('oshow');
+          const txto2 = document.getElementById('oshow2');
+          const txto3 = document.getElementById('oshow3');
+          btntimeron.addEventListener('click', function() {
+            txto.innerText = 'ON';
+          });
+          btntimeroff.addEventListener('click', function() {
+            txto.innerText = 'OFF';
+          });
+          btnsteamon.addEventListener('click', function() {
+            txto1.innerText = 'ON';
+          });
+          btnsteamoff.addEventListener('click', function() {
+            txto1.innerText = 'OFF';
+          });
+          btnlighton.addEventListener('click', function() {
+            txto2.innerText = 'ON';
+          });
+          btnlightoff.addEventListener('click', function() {
+            txto2.innerText = 'OFF';
+          });
+          btnoon.addEventListener('click', function() {
+            txto3.innerText = 'ON';
+          });
+          btnooff.addEventListener('click', function() {
+            txto3.innerText = 'OFF';
+          });
+        });
+      </script>
+    </div>
+
+  </section>
+
+  <!-- camera Section -->
+  <section class="masthead text-center text-white d-flex" id="camera">
+    <div class="col-lg-5 mx-auto" style="border: 2px solid white; border-radius: 20px; background-color: rgba(0,0,0,0.5);">
+      <h1 class="text-uppercase">
+        <br>
+        <strong>동작 화면</strong>
+        <hr>
+      </h1>
+      <div class="col-lg-10 mx-auto" style="margin-bottom: 10px;">
+        <img src="http://192.168.2.40:81/stream" width="600px" height="500px">
+        <br>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="vendor/scrollreveal/scrollreveal.min.js"></script>
+  <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/creative.min.js"></script>
+
+</body>
+
+</html>
